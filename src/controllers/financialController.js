@@ -2,22 +2,7 @@ import jwt from "jsonwebtoken";
 import { getFinancial, insertFinancial } from "../repositories/financialRepositories.js";
 
 export async function postEvent (req, res) {
-    try {
-      const authorization = req.headers.authorization || "";
-      const token = authorization.replace("Bearer ", "");
-  
-      if (!token) {
-        return res.sendStatus(401);
-      }
-  
-      let user;
-  
-      try {
-        user = jwt.verify(token, process.env.JWT_SECRET);
-      } catch {
-        return res.sendStatus(401);
-      }
-  
+    try {  
       const { value, type } = req.body;
   
       if (!value || !type) {
@@ -43,22 +28,7 @@ export async function postEvent (req, res) {
   };
   
   export async function getEvent (req, res) {
-    try {
-      const authorization = req.headers.authorization || "";
-      const token = authorization.replace("Bearer ", "");
-  
-      if (!token) {
-        return res.sendStatus(401);
-      }
-  
-      let user;
-  
-      try {
-        user = jwt.verify(token, process.env.JWT_SECRET);
-      } catch {
-        return res.sendStatus(401);
-      }
-  
+    try {  
       const events = await getFinancial(user.id);
   
       res.send(events.rows);
@@ -70,21 +40,6 @@ export async function postEvent (req, res) {
   
   export async function getEventSum (req, res) {
     try {
-      const authorization = req.headers.authorization || "";
-      const token = authorization.replace("Bearer ", "");
-  
-      if (!token) {
-        return res.sendStatus(401);
-      }
-  
-      let user;
-  
-      try {
-        user = jwt.verify(token, process.env.JWT_SECRET);
-      } catch {
-        return res.sendStatus(401);
-      }
-  
       const events = await getFinancial(user.id)
   
       const sum = events.rows.reduce(
